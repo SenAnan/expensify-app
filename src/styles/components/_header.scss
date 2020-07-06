@@ -1,0 +1,25 @@
+.header {
+	background-color: $dark-blue;
+
+	&__container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: 7vh;
+	}
+
+	&__title {
+		color: white;
+		font-size: 3rem;
+		margin: 0;
+		// font-weight: 400;
+	}
+
+	&__button {
+		border: none;
+		background: transparent;
+		color: white;
+		font-size: $font-size-large;
+		font-weight: 300;
+	}
+}

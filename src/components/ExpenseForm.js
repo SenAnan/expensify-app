@@ -13,25 +13,25 @@ export default class ExpenseForm extends React.Component {
 			amount: props.expense ? (props.expense.amount / 100).toString() : '',
 			createdAt: props.expense ? moment(props.expense.createdAt) : moment(),
 			calendarFocused: false,
-			error: ''
+			error: '',
 		};
 	}
 
-	onDescriptionChange = e => {
+	onDescriptionChange = (e) => {
 		const description = e.target.value;
 		this.setState(() => ({ description }));
 	};
-	onNoteChange = e => {
+	onNoteChange = (e) => {
 		const note = e.target.value;
 		this.setState(() => ({ note }));
 	};
-	onAmountChange = e => {
+	onAmountChange = (e) => {
 		const amount = e.target.value;
 		if (!amount || amount.match(/^\d+(\.\d{0,2})?$/)) {
 			this.setState(() => ({ amount }));
 		}
 	};
-	onDateChange = createdAt => {
+	onDateChange = (createdAt) => {
 		if (createdAt) {
 			this.setState(() => ({ createdAt }));
 		}
@@ -39,7 +39,7 @@ export default class ExpenseForm extends React.Component {
 	onFocusChange = ({ focused }) => {
 		this.setState(() => ({ calendarFocused: focused }));
 	};
-	onSubmit = e => {
+	onSubmit = (e) => {
 		e.preventDefault();
 		if (!this.state.description || !this.state.amount) {
 			this.setState(() => ({ error: 'Please provide a description and an amount' }));
@@ -49,46 +49,51 @@ export default class ExpenseForm extends React.Component {
 				description: this.state.description,
 				amount: parseFloat(this.state.amount) * 100,
 				createdAt: this.state.createdAt.valueOf(),
-				note: this.state.note
+				note: this.state.note,
 			});
 		}
 	};
 	render() {
 		return (
-			<div>
-				{this.state.error && <p>{this.state.error}</p>}
-				<form action="GET" onSubmit={this.onSubmit}>
-					<input
-						type="text"
-						value={this.state.description}
-						onChange={this.onDescriptionChange}
-						placeholder="Description"
-						autoFocus
-					/>
-					<input
-						type="text"
-						placeholder="Amount"
-						value={this.state.amount}
-						onChange={this.onAmountChange}
-					/>
-					<SingleDatePicker
-						date={this.state.createdAt}
-						onDateChange={this.onDateChange}
-						focused={this.state.calendarFocused}
-						onFocusChange={this.onFocusChange}
-						numberOfMonths={1}
-						isOutsideRange={() => false}
-					/>
-					<textarea
-						cols="30"
-						rows="10"
-						placeholder="Add a note (optional)"
-						value={this.state.note}
-						onChange={this.onNoteChange}
-					></textarea>
-					<button>{this.props.expense ? 'Edit Expense' : 'Add Expense'}</button>
-				</form>
-			</div>
+			<form className="form" action="GET" onSubmit={this.onSubmit}>
+				{this.state.error && <p className="form__error">{this.state.error}</p>}
+				<input
+					type="text"
+					value={this.state.description}
+					onChange={this.onDescriptionChange}
+					className="text-input"
+					placeholder="Description"
+					autoFocus
+				/>
+				<input
+					type="text"
+					placeholder="Amount"
+					value={this.state.amount}
+					className="text-input"
+					onChange={this.onAmountChange}
+				/>
+				<SingleDatePicker
+					date={this.state.createdAt}
+					onDateChange={this.onDateChange}
+					focused={this.state.calendarFocused}
+					onFocusChange={this.onFocusChange}
+					numberOfMonths={1}
+					isOutsideRange={() => false}
+				/>
+				<textarea
+					cols="30"
+					rows="10"
+					placeholder="Add a note (optional)"
+					className="textarea"
+					value={this.state.note}
+					onChange={this.onNoteChange}
+				></textarea>
+				<div>
+					<button className="button">
+						{this.props.expense ? 'Edit Expense' : 'Add Expense'}
+					</button>
+				</div>
+			</form>
 		);
 	}
 }
